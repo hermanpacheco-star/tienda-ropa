@@ -1,4 +1,4 @@
-const CACHE='atelier-live-v2';const FILES=['/','/index.html','/manifest.webmanifest','/icon-192.png','/icon-512.png'];
+const CACHE='atelier-live-v3';const FILES=['/','/index.html','/manifest.webmanifest','/icon-192.png','/icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(FILES)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('atelier-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{let u=new URL(e.request.url);if(e.request.method!=='GET'||u.origin!==self.location.origin||u.pathname.startsWith('/.netlify/')||u.pathname.startsWith('/admin'))return;e.respondWith(fetch(e.request).then(r=>{if(r.ok){let copy=r.clone();e.waitUntil(caches.open(CACHE).then(c=>c.put(e.request,copy)))}return r}).catch(()=>caches.match(e.request).then(r=>r||(e.request.mode==='navigate'?caches.match('/index.html'):Response.error()))))});
