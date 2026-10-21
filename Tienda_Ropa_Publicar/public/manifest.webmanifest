@@ -1,0 +1,26 @@
+{
+  "id": "./",
+  "name": "Atelier · Tienda de ropa",
+  "short_name": "Atelier",
+  "description": "Catálogo de ropa y pedidos por WhatsApp",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f8f7f2",
+  "theme_color": "#22382e",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

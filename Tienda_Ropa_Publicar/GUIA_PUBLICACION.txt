@@ -1,0 +1,64 @@
+TIENDA DE ROPA - VERSION CON ADMINISTRACION PROTEGIDA
+
+1. SUBIR A GITHUB
+Descomprime el ZIP. En el repositorio tienda-ropa, sube TODO el contenido de la carpeta Tienda_Ropa_Publicar, incluidas las carpetas public, netlify, server, scripts y tests.
+Los archivos package.json, package-lock.json y netlify.toml deben quedar en la raíz del repositorio.
+Si ya subiste el prototipo anterior, retira de la raíz index.html, sw.js, manifest.webmanifest e iconos antiguos: ahora los archivos públicos están dentro de public.
+No subas el ZIP como sustituto de los archivos. Confirma con Commit changes.
+
+2. CONECTAR NETLIFY
+Add new project > Import an existing project > GitHub > tienda-ropa.
+Si no aparece, Configure the Netlify app on GitHub > permitir este repositorio.
+Rama: main
+Base directory: vacío
+Build command: npm run build
+Publish directory: public
+Functions directory: netlify/functions
+Esta configuración reemplaza la del PMV anterior. La app usa Netlify Functions y Netlify Blobs; este paquete está preparado específicamente para Netlify.
+
+3. CREAR TU ACCESO PRIVADO
+Antes del despliegue, Add environment variables. Agrega:
+ADMIN_USER: el usuario que tú elijas (mínimo 3 caracteres; también puede ser un correo).
+ADMIN_PASSWORD: una contraseña única de mínimo 12 caracteres.
+SESSION_SECRET: una cadena aleatoria de al menos 32 caracteres, distinta de la contraseña. Usa un generador de contraseñas.
+Marca los valores privados como secretos, con ámbito Functions o todos los ámbitos y contexto Production.
+NO me envíes los valores ni los subas a GitHub.
+No necesitas API_SECRET, APPS_SCRIPT_URL ni configurar Google Sheets para esta tienda.
+Pulsa Deploy. Espera Published.
+Si cambias variables después, vuelve a desplegar para aplicarlas.
+
+4. ENLACES
+Cliente: el enlace publicado que termina en .netlify.app
+Administrador: ese mismo enlace seguido de /admin
+Ejemplo de formato (no es tu dirección definitiva):
+https://tu-tienda.netlify.app
+https://tu-tienda.netlify.app/admin
+El cliente no necesita cuenta. El propietario entra con ADMIN_USER y ADMIN_PASSWORD.
+No existe registro público ni recuperación automática por email. Para recuperar o cambiar el acceso, el responsable del proyecto modifica ADMIN_USER/ADMIN_PASSWORD en Netlify y vuelve a desplegar. Cambiar credenciales invalida las sesiones anteriores.
+Una tienda y un propietario por proyecto. Para otro negocio, usa un repositorio/proyecto Netlify independiente.
+
+5. CONFIGURAR EL NEGOCIO
+Abre /admin, inicia sesión, cambia nombre de tienda y WhatsApp con código de país. Valor inicial 59162301640.
+Guarda. Crea o edita productos, tallas, descripción, disponibilidad, fotos y precio. Guarda cada producto y espera confirmación.
+El catálogo se guarda en el servidor y sigue disponible tras nuevos despliegues. El cliente ve los cambios al abrir o recargar la tienda. Mantén una sola pestaña de edición; si hay conflicto, recarga antes de continuar.
+Máximo 60 productos y aproximadamente 4 MB por catálogo. Las fotos se reducen automáticamente; si una pesa demasiado, usa una imagen más pequeña. No es un sistema de inventario por unidades: disponibilidad se confirma por WhatsApp.
+
+6. PRUEBA OBLIGATORIA ANTES DE COMPARTIR
+A. Desde /admin cambia el precio de una prenda y guarda.
+B. En otro celular o ventana privada abre el enlace de cliente: verifica ese precio y foto.
+C. Prueba entrar sin sesión a /admin: debe pedir usuario y contraseña.
+D. Con otro número de WhatsApp agrega productos, elige talla y nombre. Continuar en WhatsApp > Abrir WhatsApp > Enviar. Confirma recepción al 59162301640 o al número que configuraste.
+E. Instalar la app desde Chrome Android. En iPhone abre Safari > Compartir > Agregar a pantalla de inicio. La instalación depende del navegador y se verifica desde HTTPS, no abriendo el HTML local.
+F. Cierra sesión y comprueba que ya no puedes editar sin ingresar nuevamente.
+
+7. RESPALDOS Y ALCANCE
+Exportar catálogo descarga un respaldo JSON que incluye fotos. Importar catálogo reemplaza el catálogo compartido tras confirmar.
+La conexión es necesaria para consultar el catálogo actualizado, administrar y pedir por WhatsApp. La caché permite mostrar la pantalla inicial sin conexión, pero no confirma disponibilidad ni toma pedidos sin internet.
+No se cobran pagos dentro de la app ni se envían mensajes automáticamente. El cliente pulsa Enviar en WhatsApp. El dueño finaliza la venta.
+El almacenamiento, funciones y tráfico están sujetos a los límites del plan de Netlify.
+Reemplaza fotos de muestra por fotografías propias para el lanzamiento comercial. Fuente de referencia: https://ecommerce-codex-demo.vercel.app/
+
+VERIFICACION REALIZADA
+Sintaxis del navegador/servidor, manifiesto e iconos, pruebas de sesión válida, token adulterado, cambio de credenciales, origen de escritura y validación de catálogo.
+Pendiente: despliegue en tu cuenta y prueba real de almacenamiento, acceso, envío WhatsApp e instalación en celular. No se ha publicado automáticamente.
+Fuentes técnicas: https://docs.netlify.com/build/data-and-storage/netlify-blobs/ y https://docs.netlify.com/build/environment-variables/overview/
